@@ -20,10 +20,10 @@ public class Wallet extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private CryptoSymbol symbol;
 
-    @Column(name = "available_balance")
+    @Column(name = "available_balance", precision = 20, scale = 8, nullable = false)
     private BigDecimal availableBalance;
 
-    @Column(name = "locked_balance")
+    @Column(name = "locked_balance", precision = 20, scale = 8, nullable = false)
     private BigDecimal lockedBalance;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

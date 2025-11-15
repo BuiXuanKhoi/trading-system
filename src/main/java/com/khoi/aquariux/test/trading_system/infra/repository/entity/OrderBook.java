@@ -24,21 +24,26 @@ public class OrderBook extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "requested_usdt_amount")
-    private BigDecimal requestedUsdtAmount;
+    @Column(name = "request_quantity", precision = 20, scale = 8, nullable = false)
+    private BigDecimal requestQuantity;
 
-    @Column(name = "symbol")
+    @Column(name = "request_symbol", precision = 20, scale = 8, nullable = false)
     @Enumerated(EnumType.STRING)
-    private CryptoSymbol symbol;
+    private CryptoSymbol requestSymbol;
 
-    @Column(name = "crypto_amount")
-    private BigDecimal cryptoAmount;
+    @Column(name = "used_quantity", precision = 20, scale = 8, nullable = false)
+    private BigDecimal usedQuantity;
+
+    @Column(name = "used_symbol", precision = 20, scale = 8, nullable = false)
+    @Enumerated(EnumType.STRING)
+    private CryptoSymbol usedSymbol;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    private boolean side;
+    @Column(name = "is_buy")
+    private Boolean isBuy;
 
     @Column(name = "order_uuid")
     private UUID orderUuid;
@@ -47,9 +52,9 @@ public class OrderBook extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderType orderType;
 
-    @Column(name = "limit_price")
+    @Column(name = "limit_price", precision = 20, scale = 8, nullable = false)
     private BigDecimal limitPrice;
 
-    @Column(name = "execution_price")
-    private BigDecimal executionPrice;
+    @Column(name = "execution_quantity", precision = 20, scale = 8, nullable = false)
+    private BigDecimal executionQuantity;
 }

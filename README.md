@@ -44,6 +44,6 @@ Develop a crypto trading system with SpringBoot framework and in memory H2
 
 #### 2.2 Database design
 
-![img_3.png](img_3.png)
+![img_4.png](img_4.png)
 
 2.3 Low level design

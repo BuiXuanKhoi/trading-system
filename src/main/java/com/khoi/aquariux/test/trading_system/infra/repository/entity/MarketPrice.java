@@ -21,22 +21,23 @@ public class MarketPrice extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private CryptoSymbol symbol;
 
-    @Column(name = "bid_price")
+    @Column(name = "bid_price", precision = 20, scale = 8, nullable = false)
     private BigDecimal bidPrice;
 
-    @Column(name = "bid_quantity")
+    @Column(name = "bid_quantity", precision = 20, scale = 8, nullable = false)
     private BigDecimal bidQuantity;
 
-    @Column(name = "bid_source")
-    private CryptoSource bidSource;
-
-    @Column(name = "ask_price")
+    @Column(name = "ask_price", precision = 20, scale = 8, nullable = false)
     private BigDecimal askPrice;
 
-    @Column(name = "ask_quantity")
+    @Column(name = "ask_quantity", precision = 20, scale = 8, nullable = false)
     private BigDecimal askQuantity;
 
     @Column(name = "ask_source")
     @Enumerated(EnumType.STRING)
     private CryptoSource askSource;
+
+    @Column(name = "bid_source")
+    @Enumerated(EnumType.STRING)
+    private CryptoSource bidSource;
 }

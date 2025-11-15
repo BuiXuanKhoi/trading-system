@@ -1,6 +1,7 @@
 package com.khoi.aquariux.test.trading_system.infra.repository.entity;
 
 import com.khoi.aquariux.test.trading_system.enumeration.CryptoSymbol;
+import com.khoi.aquariux.test.trading_system.enumeration.TransactionStatus;
 import com.khoi.aquariux.test.trading_system.infra.repository.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -17,23 +18,29 @@ import java.util.UUID;
 @Table(name = "transactions")
 public class Transaction extends BaseEntity {
 
+    @Column(name = "transaction_uuid")
     private UUID transactionUuid;
 
-    @Column(name = "crypto_amount")
-    private BigDecimal cryptoAmount;
+    @Column(name = "is_buy")
+    private Boolean isBuy;
 
-    private boolean side;
-
-    @Column(name = "symbol")
+    @Column(name = "request_symbol", precision = 20, scale = 8, nullable = false)
     @Enumerated(EnumType.STRING)
-    private CryptoSymbol symbol;
+    private CryptoSymbol requestSymbol;
 
-    @Column(name = "execution_amount")
-    private BigDecimal executionAmount;
+    @Column(name = "used_quantity", precision = 20, scale = 8, nullable = false)
+    private BigDecimal usedQuantity;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(name = "used_symbol", precision = 20, scale = 8, nullable = false)
+    @Enumerated(EnumType.STRING)
+    private CryptoSymbol usedSymbol;
+
+    @Column(name = "request_quantity", precision = 20, scale = 8, nullable = false)
+    private BigDecimal requestQuantity;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private TransactionStatus status;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
