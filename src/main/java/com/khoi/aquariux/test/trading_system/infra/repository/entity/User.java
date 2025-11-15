@@ -4,8 +4,7 @@ import com.khoi.aquariux.test.trading_system.infra.repository.entity.base.BaseEn
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.util.UUID;
@@ -15,6 +14,9 @@ import java.util.UUID;
 @Accessors(chain = true)
 @Entity
 @Table(name = "users")
+@Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class User extends BaseEntity {
 
     @Column(name = "username")

@@ -9,11 +9,17 @@ spring:
     username: khoi
     password: password
     driverClassName: org.h2.Driver
+  sql:
+    init:
+      mode: always
   h2:
     console:
       enabled: true
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: none
 
 
 external-source:

@@ -3,17 +3,19 @@ package com.khoi.aquariux.test.trading_system.infra.repository.entity;
 import com.khoi.aquariux.test.trading_system.enumeration.CryptoSymbol;
 import com.khoi.aquariux.test.trading_system.infra.repository.entity.base.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 
 @Getter
 @Setter
+@RequiredArgsConstructor
+@Builder
 @Accessors(chain = true)
 @Entity
 @Table(name = "wallets")
+@AllArgsConstructor
 public class Wallet extends BaseEntity {
 
     @Column(name = "symbol")

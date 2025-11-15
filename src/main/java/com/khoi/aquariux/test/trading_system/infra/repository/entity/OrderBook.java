@@ -5,8 +5,7 @@ import com.khoi.aquariux.test.trading_system.enumeration.OrderStatus;
 import com.khoi.aquariux.test.trading_system.enumeration.OrderType;
 import com.khoi.aquariux.test.trading_system.infra.repository.entity.base.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
@@ -14,9 +13,12 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@Builder
 @Accessors(chain = true)
 @Entity
 @Table(name = "order_book")
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderBook extends BaseEntity {
 
 
@@ -55,6 +57,6 @@ public class OrderBook extends BaseEntity {
     @Column(name = "limit_price", precision = 20, scale = 8, nullable = false)
     private BigDecimal limitPrice;
 
-    @Column(name = "execution_quantity", precision = 20, scale = 8, nullable = false)
+    @Column(name = "execution_quantity", precision = 20, scale = 8)
     private BigDecimal executionQuantity;
 }

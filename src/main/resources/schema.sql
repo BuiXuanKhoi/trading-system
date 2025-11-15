@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS order_book (
     order_uuid VARCHAR(45) NOT NULL,
     order_type VARCHAR(20) NOT NULL,
     limit_price DECIMAL(20, 8) NOT NULL,
-    execution_quantity DECIMAL(20, 8) NOT NULL,
+    execution_quantity DECIMAL(20, 8) DEFAULT 0,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_order_book_user FOREIGN KEY (user_id) REFERENCES users (id)
