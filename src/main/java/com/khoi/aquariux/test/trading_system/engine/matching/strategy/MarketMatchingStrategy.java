@@ -114,7 +114,7 @@ public class MarketMatchingStrategy implements MatchingStrategy{
         BigDecimal marketSellPrice = marketSymbol.getBidPrice();
 
         if (usedWallet.getAvailableBalance().compareTo(usedQuantity) < 0){
-            throw new UserBalanceNotEnoughException("user uuid {} not enough balance to sell {} {}", order.getUser().getUserUuid(), usedQuantity, usedSymbol);
+            throw new UserBalanceNotEnoughException("order uuid {} not enough balance to sell {} {}", order.getOrderUuid(), usedQuantity, usedSymbol);
         }
 
         if (marketSellQuantity.compareTo(usedQuantity) < 0){ // Liquid is exhausted and cannot provide for the order
