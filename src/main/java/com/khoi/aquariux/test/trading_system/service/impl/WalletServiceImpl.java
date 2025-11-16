@@ -9,6 +9,7 @@ import com.khoi.aquariux.test.trading_system.infra.repository.entity.User;
 import com.khoi.aquariux.test.trading_system.infra.repository.entity.Wallet;
 import com.khoi.aquariux.test.trading_system.service.UserService;
 import com.khoi.aquariux.test.trading_system.service.WalletService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -28,10 +29,6 @@ public class WalletServiceImpl implements WalletService {
     private final WalletRepository walletRepository;
     private final UserService userService;
 
-    @Override
-    public List<Wallet> findAllWalletByUser(Long userId) {
-        return null;
-    }
 
     @Override
     public Wallet findWalletByUserAndSymbol(User user, CryptoSymbol symbol) {
@@ -61,6 +58,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
+    @Transactional
     public void deduct(Wallet wallet, BigDecimal quantity) {
         log.info("deduct from {} wallet of user uuid {}", wallet.getSymbol(), wallet.getUser().getUserUuid());
         BigDecimal newBalance = wallet.getAvailableBalance().subtract(quantity);
@@ -68,6 +66,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
+    @Transactional
     public void depositTo(Wallet wallet, BigDecimal quantity) {
         log.info("deposit to {} wallet of user uuid {}", wallet.getSymbol(), wallet.getUser().getUserUuid());
         BigDecimal newBalance = wallet.getAvailableBalance().add(quantity);

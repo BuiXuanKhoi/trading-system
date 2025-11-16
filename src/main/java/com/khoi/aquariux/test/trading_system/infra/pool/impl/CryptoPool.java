@@ -41,6 +41,7 @@ public class CryptoPool implements CryptoPoolReadOnly, CryptoPoolWriteOnly {
         this.cryptoPriceQuantityCache = new HashMap<>();
         cryptoPriceQuantityCache.put(CryptoSymbol.BTCUSDT, CryptoPriceResponse.SymbolInfo.newInstance());
         cryptoPriceQuantityCache.put(CryptoSymbol.ETHUSDT, CryptoPriceResponse.SymbolInfo.newInstance());
+        cryptoPriceQuantityCache.put(CryptoSymbol.USDT, CryptoPriceResponse.SymbolInfo.newInstance());
     }
 
     @Override
@@ -55,6 +56,7 @@ public class CryptoPool implements CryptoPoolReadOnly, CryptoPoolWriteOnly {
 
     @Override
     public CryptoPriceResponse.SymbolInfo getSymbolInfoBySymbol(CryptoSymbol symbol) {
+        log.info("get symbol {} info from cache", symbol);
         return cryptoPriceQuantityCache.get(symbol);
     }
 

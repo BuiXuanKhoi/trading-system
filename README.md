@@ -32,15 +32,22 @@ Develop a crypto trading system with SpringBoot framework and in memory H2
 - When the order come and the order queue is empty, the order must be executed immediately
 - When user place an order but the quantity is not enough, it will be reversed
 
-![img_1.png](img_1.png)
+##### 2.1.1 Core logic
 
+- The market order is type of order that will be executed with the best market price at the time it executed.
+- All market order that cannot full filled at once time will be marked at PARTIAL_FILLED and can be handle later. But the order still prior time
+- In the time market order being executed, if the balance is not enough to execute the order, the order will be marked as CANCELLED
 ##### 2.1.1 Order Book
+
+- At here, I use the FIFO type of order book, which mean it will prior the time an order pushed to queue instead
+- The order book used for user placed an market order. The order will be executed based on the time it inputted.
 
 ##### 2.1.2 Matching Engine
 
+- The matching engine match market order based on the current market price and quantity.
+- If market quantity is not enough to filled the order. The order could be change to PARTIAL_FILLED and the remaining order could be filled in the next time
 
-
-
+![img_1.png](img_1.png)
 
 #### 2.2 Database design
 

@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.UUID;
 
 public interface WalletService {
-    List<Wallet> findAllWalletByUser(Long userId);
 
     Wallet findWalletByUserAndSymbol(User user, CryptoSymbol symbol);
 

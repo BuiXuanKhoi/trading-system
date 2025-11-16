@@ -10,6 +10,9 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @Query(value = "SELECT odr, txns from Order ord INNER JOIN FETCH odr.transactions txns where user_id = :userId")
+    @Query(value = "SELECT ords.* FROM orders ords " +
+            "LEFT JOIN transactions txns ON ords.id = txns.order_id " +
+            "WHERE ords.user_id = :userId",
+            nativeQuery = true)
     List<Order> getAllByUserId(Long userId);
 }

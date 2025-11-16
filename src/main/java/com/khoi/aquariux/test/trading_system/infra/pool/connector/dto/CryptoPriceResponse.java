@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -28,6 +29,10 @@ public class CryptoPriceResponse {
         private BigDecimal askQuantity;
         private CryptoSource bidSource;
         private CryptoSource askSource;
+
+        public void setAskPrice(BigDecimal askPrice){
+            this.askPrice = Objects.requireNonNullElse(askPrice, BigDecimal.ZERO);
+        }
 
         public static SymbolInfo newInstance(){
             return SymbolInfo.builder()

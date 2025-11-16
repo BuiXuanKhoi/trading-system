@@ -6,6 +6,7 @@ import com.khoi.aquariux.test.trading_system.infra.repository.entity.Order;
 import lombok.Getter;
 import org.apache.logging.log4j.Logger;
 
+import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.locks.Condition;
@@ -15,7 +16,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public abstract class BaseMatchingEngine {
 
     @Getter
-    private final BlockingQueue<Order> orderQueue;
+    private final BlockingDeque<Order> orderQueue;
     private final MatchingStrategyFactory matchingStrategyFactory;
     private final ReentrantLock lock;
     private final Condition lockCondition;
@@ -49,13 +50,17 @@ public abstract class BaseMatchingEngine {
             try {
                 Order order = orderQueue.take();
                 log.info("start matching for order uuid {}", order.getOrderUuid());
-                matchingStrategyFactory.getMatchingStrategy(order.getOrderType()).match(order);
 
+                try {
+                    matchingStrategyFactory.getMatchingStrategy(order.getOrderType()).match(order);
+                } catch (MarketCapacityNotEnoughException exception){
+                    log.info("push back order to queue to handle later when market capacity filled");
+                    orderQueue.addFirst(order);
+                    log.info("pause matching engine until market capacity filled");
+                    lock();
+                }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
-            } catch (MarketCapacityNotEnoughException exception){
-                log.info("pause matching engine until market capacity filled");
-                lock();
             }
         }
     }

@@ -12,7 +12,7 @@ import java.util.UUID;
 @Repository
 public interface WalletRepository extends JpaRepository<Wallet, Long> {
 
-
+    @Query(value = "SELECT * from wallets where user_id = :userId AND symbol = :symbol",nativeQuery = true)
     Optional<Wallet> findWalletByUserAndSymbol(Long userId, String symbol);
 
     @Query(value = "SELECT * from wallets where user_id = :userId",nativeQuery = true)

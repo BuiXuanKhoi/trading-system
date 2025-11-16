@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS wallets (
     user_id BIGINT NOT NULL,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_wallet_user FOREIGN KEY (user_id) REFERENCES users (id)
+    CONSTRAINT fk_wallet_user FOREIGN KEY (user_id) REFERENCES users (id),
+    CONSTRAINT uni_wallet_user_symbol UNIQUE (user_id, symbol)
 );
 
 CREATE TABLE IF NOT EXISTS orders (

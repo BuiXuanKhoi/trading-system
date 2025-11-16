@@ -45,7 +45,6 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    @Transactional
     public Order placeMarketOrder(OrderRequest request) {
         User owner = userService.findUserByUuid(request.userUuid());
 

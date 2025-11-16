@@ -11,6 +11,6 @@ import java.util.List;
 public interface MarketPriceRepository extends JpaRepository<MarketPrice, Long> {
 
 
-    @Query(value = "SELECT * FROM market_price order by id LIMIT 2",nativeQuery = true)
+    @Query(value = "SELECT * FROM market_price order by id DESC LIMIT 2",nativeQuery = true)
     List<MarketPrice> getLatestMarketPrice();
 }

@@ -23,7 +23,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public Transaction addNewByOrder(Order order, BigDecimal receiveQuantity, BigDecimal costQuantity) {
+    public Transaction addNewByOrder(Order order, TransactionStatus status, BigDecimal receiveQuantity, BigDecimal costQuantity) {
         Transaction transaction =  Transaction.builder()
                                             .isBuy(order.isBuy())
                                             .order(order)
@@ -32,7 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
                                             .requestQuantity(receiveQuantity)
                                             .usedSymbol(order.getUsedSymbol())
                                             .usedQuantity(costQuantity)
-                                            .status(TransactionStatus.SUCCESS)
+                                            .status(status)
                                             .build();
 
         return saveAndFlush(transaction);
