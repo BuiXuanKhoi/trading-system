@@ -5,6 +5,7 @@ import com.khoi.aquariux.test.trading_system.enumeration.CryptoSymbol;
 import com.khoi.aquariux.test.trading_system.infra.repository.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 @Accessors(chain = true)
 @Entity
 @Table(name = "market_price")
+@NoArgsConstructor
 public class MarketPrice extends BaseEntity {
 
     @Column(name = "symbol")
@@ -40,4 +42,8 @@ public class MarketPrice extends BaseEntity {
     @Column(name = "bid_source")
     @Enumerated(EnumType.STRING)
     private CryptoSource bidSource;
+
+    public MarketPrice(CryptoSymbol symbol){
+        this.symbol = symbol;
+    }
 }

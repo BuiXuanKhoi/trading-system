@@ -3,17 +3,13 @@ package com.khoi.aquariux.test.trading_system.engine.matching.strategy;
 import com.khoi.aquariux.test.trading_system.enumeration.CryptoSymbol;
 import com.khoi.aquariux.test.trading_system.enumeration.OrderStatus;
 import com.khoi.aquariux.test.trading_system.enumeration.OrderType;
-import com.khoi.aquariux.test.trading_system.enumeration.TransactionStatus;
 import com.khoi.aquariux.test.trading_system.exception.MarketCapacityNotEnoughException;
 import com.khoi.aquariux.test.trading_system.exception.UserBalanceNotEnoughException;
-import com.khoi.aquariux.test.trading_system.infra.connector.dto.CryptoPriceResponse;
-import com.khoi.aquariux.test.trading_system.infra.pool.CryptoPoolReadOnly;
+import com.khoi.aquariux.test.trading_system.infra.pool.connector.dto.CryptoPriceResponse;
 import com.khoi.aquariux.test.trading_system.infra.pool.CryptoPoolWriteOnly;
 import com.khoi.aquariux.test.trading_system.infra.repository.OrderRepository;
 import com.khoi.aquariux.test.trading_system.infra.repository.entity.Order;
-import com.khoi.aquariux.test.trading_system.infra.repository.entity.Transaction;
 import com.khoi.aquariux.test.trading_system.infra.repository.entity.Wallet;
-import com.khoi.aquariux.test.trading_system.service.OrderService;
 import com.khoi.aquariux.test.trading_system.service.TransactionService;
 import com.khoi.aquariux.test.trading_system.service.WalletService;
 import jakarta.transaction.Transactional;
@@ -24,7 +20,6 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor

@@ -1,7 +1,7 @@
 package com.khoi.aquariux.test.trading_system.infra.pool;
 
 import com.khoi.aquariux.test.trading_system.enumeration.CryptoSymbol;
-import com.khoi.aquariux.test.trading_system.infra.connector.dto.CryptoPriceResponse;
+import com.khoi.aquariux.test.trading_system.infra.pool.connector.dto.CryptoPriceResponse;
 
 import java.math.BigDecimal;
 

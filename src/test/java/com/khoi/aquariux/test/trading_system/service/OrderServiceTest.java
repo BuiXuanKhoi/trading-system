@@ -57,7 +57,7 @@ public class OrderServiceTest {
                 userUuId,
                 true,
                 OrderType.MARKET,
-                CryptoSymbol.BTC,
+                CryptoSymbol.BTCUSDT,
                 BigDecimal.ONE
         );
 
@@ -83,7 +83,7 @@ public class OrderServiceTest {
 
         when(userService.findUserByUuid(userUuId)).thenReturn(user);
         when(walletService.findWalletByUserAndSymbol(any(), any())).thenReturn(wallet);
-        when(cryptoPoolReadOnly.getCurrentBuyPriceBySymbol(CryptoSymbol.BTC)).thenReturn(ratePrice);
+        when(cryptoPoolReadOnly.getCurrentBuyPriceBySymbol(CryptoSymbol.BTCUSDT)).thenReturn(ratePrice);
         when(orderBookFactory.getOrderBook(OrderBookType.FIFO)).thenReturn(PriceTimePriorityOrderBook);
         when(orderRepository.saveAndFlush(any())).thenReturn(order);
 
@@ -105,7 +105,7 @@ public class OrderServiceTest {
                 userUuId,
                 true,
                 OrderType.MARKET,
-                CryptoSymbol.BTC,
+                CryptoSymbol.BTCUSDT,
                 BigDecimal.TEN
         );
 
@@ -116,7 +116,7 @@ public class OrderServiceTest {
 
         when(userService.findUserByUuid(userUuId)).thenReturn(user);
         when(walletService.findWalletByUserAndSymbol(any(), any())).thenReturn(wallet);
-        when(cryptoPoolReadOnly.getCurrentBuyPriceBySymbol(CryptoSymbol.BTC)).thenReturn(BigDecimal.TEN);
+        when(cryptoPoolReadOnly.getCurrentBuyPriceBySymbol(CryptoSymbol.BTCUSDT)).thenReturn(BigDecimal.TEN);
 
         assertThrows(UserBalanceNotEnoughException.class, () -> orderService.placeMarketOrder(request));
     }

@@ -1,17 +1,21 @@
 package com.khoi.aquariux.test.trading_system.enumeration;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 public enum CryptoSymbol {
-    LTCBTC("LTCBTC"),
-    ETHBTC("ETHBTC"),
-    USDT("USDT");
 
-    final String value;
+    BTCUSDT,
+    ETHUSDT,
+    USDT;
 
-    CryptoSymbol(final String value){
-        this.value = value;
+    public static Optional<CryptoSymbol> getSymbolByName(String name){
+        return Arrays.stream(values()).filter(symbol -> symbol.name().equalsIgnoreCase(name))
+                .findFirst();
     }
 
-    public String getValue(){
-        return this.value;
+    public static List<CryptoSymbol> getUpdateAbleCryptoSymbol(){
+        return List.of(BTCUSDT, ETHUSDT);
     }
 }
