@@ -31,6 +31,13 @@ Develop a crypto trading system with SpringBoot framework and in memory H2
 - The order must follow FIFO rule - which mean the first order will be executed first
 - When the order come and the order queue is empty, the order must be executed immediately
 - When user place an order but the quantity is not enough, it will be reversed
+- When execute an order:
+  - IF order quantity <= market quantity. For Ex order quantity is 3, and market quantity is 4
+  + -> order(id = 1, quantity = 3, status = FILLED, execution_quantity = 3) -> transaction(id = 1, order_id = 1, quantity = 3, status = SUCCESS)
+  - But IF order quantity > market quantity. For EX order quantity is 3, and market quantity is 2
+  + -> order(id = 1, quantity = 3, status = PARTIAL_FILLED, execution_quantity = 2) -> transaction(id = 1, order_id = 1, quantity = 2, status = SUCCESS)
+  + -> Later, the market FILLED. IF the balance is enough -> order(id = 1, quantity = 3, status = FILLED, execution_quantity = 2) -> transaction(id = 1, order_id = 1, quantity = 2, status = SUCCESS) & transaction(id = 2, order_id = 1, quantity = 1, status = SUCCESS)
+  + -> But IF balance is not enough -> order(id = 1, quantity = 3, status = CANCELLED, execution_quantity = 2) -> transaction(id = 1, order_id = 1, quantity = 2, status = SUCCESS)
 
 ##### 2.1.1 Core logic
 
