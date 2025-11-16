@@ -1,6 +1,8 @@
 package com.khoi.aquariux.test.trading_system.service.impl;
 
 import com.khoi.aquariux.test.trading_system.dto.request.OrderRequest;
+import com.khoi.aquariux.test.trading_system.dto.response.OrderDetailResponse;
+import com.khoi.aquariux.test.trading_system.dto.response.TransactionResponse;
 import com.khoi.aquariux.test.trading_system.engine.orderbook.OrderBookFactory;
 import com.khoi.aquariux.test.trading_system.enumeration.CryptoSymbol;
 import com.khoi.aquariux.test.trading_system.enumeration.OrderBookType;
@@ -25,6 +27,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -64,12 +67,34 @@ public class OrderServiceImpl implements OrderService {
         saveAndFlush(order);
     }
 
+    @Override
+    public List<OrderDetailResponse> findAllByUserUuid(UUID userUuid) {
+        User user = userService.findUserByUuid(userUuid);
+
+        return orderRepository.getAllByUserId(user.getId())
+                .stream()
+                .map(this::buildOrderDetailResponse)
+                .collect(Collectors.toList());
+    }
+
     private Order saveAndFlush(Order order){
         String action = Objects.nonNull(order.getId()) ? "UPDATED" : "CREATED";
         Order savedOrder = orderRepository.saveAndFlush(order);
         log.info("finish {} for order id {}", action, order.getId());
 
         return savedOrder;
+    }
+
+    private OrderDetailResponse buildOrderDetailResponse(Order order){
+        return OrderDetailResponse.builder()
+                .orderUuid(order.getOrderUuid())
+                .orderStatus(order.getStatus())
+                .transactions(
+                        order.getTransactions()
+                                .stream()
+                                .map(TransactionResponse::fromTransaction)
+                                .collect(Collectors.toList())
+                ).build();
     }
 
     private Order createMarketBuyOrder(OrderRequest request, User owner){

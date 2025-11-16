@@ -1,6 +1,7 @@
 package com.khoi.aquariux.test.trading_system.service;
 
 import com.khoi.aquariux.test.trading_system.dto.request.OrderRequest;
+import com.khoi.aquariux.test.trading_system.dto.response.OrderDetailResponse;
 import com.khoi.aquariux.test.trading_system.enumeration.OrderStatus;
 import com.khoi.aquariux.test.trading_system.infra.repository.entity.Order;
 import org.aspectj.weaver.ast.Or;
@@ -16,4 +17,6 @@ public interface OrderService {
     List<Order> findAllByUser(UUID userUuid);
 
     void updateStatus(Order order, OrderStatus orderStatus);
+
+    List<OrderDetailResponse> findAllByUserUuid(UUID userUuid);
 }

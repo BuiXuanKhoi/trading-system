@@ -9,6 +9,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -59,4 +60,7 @@ public class Order extends BaseEntity {
 
     @Column(name = "execution_quantity", precision = 20, scale = 8)
     private BigDecimal executionQuantity;
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Transaction> transactions;
 }
