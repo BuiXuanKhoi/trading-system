@@ -60,7 +60,7 @@ public class WalletServiceImpl implements WalletService {
     @Override
     @Transactional
     public void deduct(Wallet wallet, BigDecimal quantity) {
-        log.info("deduct from {} wallet of user uuid {}", wallet.getSymbol(), wallet.getUser().getUserUuid());
+        log.info("deduct from {} wallet", wallet.getSymbol());
         BigDecimal newBalance = wallet.getAvailableBalance().subtract(quantity);
         updateBalance(wallet, newBalance);
     }
@@ -68,7 +68,7 @@ public class WalletServiceImpl implements WalletService {
     @Override
     @Transactional
     public void depositTo(Wallet wallet, BigDecimal quantity) {
-        log.info("deposit to {} wallet of user uuid {}", wallet.getSymbol(), wallet.getUser().getUserUuid());
+        log.info("deposit to {} wallet", wallet.getSymbol());
         BigDecimal newBalance = wallet.getAvailableBalance().add(quantity);
         updateBalance(wallet, newBalance);
     }
