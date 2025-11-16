@@ -1,11 +1,13 @@
 package com.khoi.aquariux.test.trading_system.service.impl;
 
+import com.khoi.aquariux.test.trading_system.dto.response.WalletBalanceResponse;
 import com.khoi.aquariux.test.trading_system.enumeration.CryptoSymbol;
 import com.khoi.aquariux.test.trading_system.exception.ResourceNotFoundException;
 import com.khoi.aquariux.test.trading_system.exception.UserBalanceNotEnoughException;
 import com.khoi.aquariux.test.trading_system.infra.repository.WalletRepository;
 import com.khoi.aquariux.test.trading_system.infra.repository.entity.User;
 import com.khoi.aquariux.test.trading_system.infra.repository.entity.Wallet;
+import com.khoi.aquariux.test.trading_system.service.UserService;
 import com.khoi.aquariux.test.trading_system.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -13,7 +15,10 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +26,7 @@ import java.util.Objects;
 public class WalletServiceImpl implements WalletService {
 
     private final WalletRepository walletRepository;
+    private final UserService userService;
 
     @Override
     public List<Wallet> findAllWalletByUser(Long userId) {
@@ -66,6 +72,19 @@ public class WalletServiceImpl implements WalletService {
         log.info("deposit to {} wallet of user uuid {}", wallet.getSymbol(), wallet.getUser().getUserUuid());
         BigDecimal newBalance = wallet.getAvailableBalance().add(quantity);
         updateBalance(wallet, newBalance);
+    }
+
+    @Override
+    public Map<CryptoSymbol, WalletBalanceResponse> getWalletsByUserUuid(UUID userUuid) {
+        User user = userService.findUserByUuid(userUuid);
+
+        List<Wallet> wallets = walletRepository.findAllWalletByUser(user.getId());
+
+        return wallets.stream()
+                .collect(Collectors.toMap(
+                        Wallet::getSymbol,
+                        WalletBalanceResponse::fromWallet
+                ));
     }
 
     private void updateBalance(Wallet wallet, BigDecimal newBalance){
