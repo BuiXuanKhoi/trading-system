@@ -1,5 +1,5 @@
 package com.khoi.aquariux.test.trading_system.enumeration;
 
-public enum MatchingStrategy {
+public enum OrderBookType {
     FIFO;
 }

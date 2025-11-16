@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS wallets (
     CONSTRAINT fk_wallet_user FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
-CREATE TABLE IF NOT EXISTS order_book (
+CREATE TABLE IF NOT EXISTS orders (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
     used_quantity DECIMAL(20, 8),
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     order_id BIGINT NOT NULL,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_transaction_order FOREIGN KEY (order_id) REFERENCES order_book (id)
+    CONSTRAINT fk_transaction_order FOREIGN KEY (order_id) REFERENCES orders (id)
 );
 
 CREATE TABLE IF NOT EXISTS market_price (

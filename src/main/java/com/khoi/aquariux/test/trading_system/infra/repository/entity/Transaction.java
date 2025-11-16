@@ -4,8 +4,7 @@ import com.khoi.aquariux.test.trading_system.enumeration.CryptoSymbol;
 import com.khoi.aquariux.test.trading_system.enumeration.TransactionStatus;
 import com.khoi.aquariux.test.trading_system.infra.repository.entity.base.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
@@ -14,8 +13,11 @@ import java.util.UUID;
 @Getter
 @Setter
 @Accessors(chain = true)
+@Builder
+@RequiredArgsConstructor
 @Entity
 @Table(name = "transactions")
+@AllArgsConstructor
 public class Transaction extends BaseEntity {
 
     @Column(name = "transaction_uuid")
@@ -44,5 +46,5 @@ public class Transaction extends BaseEntity {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
-    private OrderBook orderBook;
+    private Order order;
 }

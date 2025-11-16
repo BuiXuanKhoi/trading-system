@@ -24,13 +24,13 @@ spring:
 
 external-source:
   binance:
-    baseUrl: "api.binance.com"
+    baseUrl: "https://api.binance.com"
     path: "/api/v3/ticker/bookTicker"
-    apiKey:
+    apiKey: 123
   huobi:
-    baseUrl: "api.huobi.pro"
+    baseUrl: "https://api.huobi.pro"
     path: "/market/tickers"
-    apiKey:
+    apiKey: 456
 
 
 

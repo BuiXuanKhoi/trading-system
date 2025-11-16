@@ -16,10 +16,10 @@ import java.util.UUID;
 @Builder
 @Accessors(chain = true)
 @Entity
-@Table(name = "order_book")
+@Table(name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderBook extends BaseEntity {
+public class Order extends BaseEntity {
 
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -45,7 +45,7 @@ public class OrderBook extends BaseEntity {
     private OrderStatus status;
 
     @Column(name = "is_buy")
-    private Boolean isBuy;
+    private boolean isBuy;
 
     @Column(name = "order_uuid")
     private UUID orderUuid;

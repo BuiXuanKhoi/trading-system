@@ -1,7 +1,15 @@
 package com.khoi.aquariux.test.trading_system.infra.pool;
 
-public interface CryptoPoolWriteOnly {
+import com.khoi.aquariux.test.trading_system.enumeration.CryptoSymbol;
 
-    void updatePrice();
+import java.math.BigDecimal;
 
+public interface CryptoPoolWriteOnly extends CryptoPoolReadOnly{
+
+    void updateSymbolBuy(CryptoSymbol symbol, BigDecimal newQuantity);
+
+    void updateSymbolSell(CryptoSymbol symbol, BigDecimal newQuantity);
+
+
+    void renew();
 }

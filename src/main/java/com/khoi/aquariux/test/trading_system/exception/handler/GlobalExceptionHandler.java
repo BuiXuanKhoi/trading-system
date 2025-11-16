@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
             HttpServletRequest request,
             Exception exception
     ){
-        log.error("handle unexpected {} exception, endpoint {}", exception.getClass(), request.getRequestURI());
+        log.error("handle unexpected {} exception, endpoint {}", exception.getClass().getName(), request.getRequestURI());
         return Map.of("errors", List.of(exception.getMessage()));
     }
 }

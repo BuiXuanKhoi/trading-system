@@ -4,5 +4,6 @@ public enum OrderStatus {
     OPEN,
     FILLED,
     PARTIAL_FILLED,
+    CANCELLED,
     CLOSED;
 }

@@ -1,25 +1,24 @@
 package com.khoi.aquariux.test.trading_system.service;
 
 import com.khoi.aquariux.test.trading_system.dto.request.OrderRequest;
-import com.khoi.aquariux.test.trading_system.engine.coordinate.CoordinateFIFOMatchingStrategy;
-import com.khoi.aquariux.test.trading_system.engine.coordinate.CoordinateMatchingFactory;
+import com.khoi.aquariux.test.trading_system.engine.orderbook.PriceTimePriorityOrderBook;
+import com.khoi.aquariux.test.trading_system.engine.orderbook.OrderBookFactory;
 import com.khoi.aquariux.test.trading_system.enumeration.CryptoSymbol;
-import com.khoi.aquariux.test.trading_system.enumeration.MatchingStrategy;
+import com.khoi.aquariux.test.trading_system.enumeration.OrderBookType;
 import com.khoi.aquariux.test.trading_system.enumeration.OrderStatus;
 import com.khoi.aquariux.test.trading_system.enumeration.OrderType;
 import com.khoi.aquariux.test.trading_system.exception.UserBalanceNotEnoughException;
 import com.khoi.aquariux.test.trading_system.infra.pool.CryptoPoolReadOnly;
-import com.khoi.aquariux.test.trading_system.infra.repository.OrderBookRepository;
-import com.khoi.aquariux.test.trading_system.infra.repository.entity.OrderBook;
+import com.khoi.aquariux.test.trading_system.infra.repository.OrderRepository;
+import com.khoi.aquariux.test.trading_system.infra.repository.entity.Order;
 import com.khoi.aquariux.test.trading_system.infra.repository.entity.User;
 import com.khoi.aquariux.test.trading_system.infra.repository.entity.Wallet;
-import com.khoi.aquariux.test.trading_system.service.impl.OrderBookServiceImpl;
+import com.khoi.aquariux.test.trading_system.service.impl.OrderServiceImpl;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -28,7 +27,7 @@ import java.util.UUID;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class OrderBookServiceTest {
+public class OrderServiceTest {
 
 
     @Mock
@@ -36,19 +35,19 @@ public class OrderBookServiceTest {
     @Mock
     private WalletService walletService;
     @Mock
-    private OrderBookRepository orderBookRepository;
+    private OrderRepository orderRepository;
 
     @Mock
     private CryptoPoolReadOnly cryptoPoolReadOnly;
 
     @InjectMocks
-    private OrderBookServiceImpl orderBookService;
+    private OrderServiceImpl orderService;
 
     @Mock
-    private CoordinateMatchingFactory coordinateMatchingFactory;
+    private OrderBookFactory orderBookFactory;
 
     @Mock
-    private CoordinateFIFOMatchingStrategy coordinateFIFOMatchingStrategy;
+    private PriceTimePriorityOrderBook PriceTimePriorityOrderBook;
 
     @Test
     void testAddBuyOrder_successfully(){
@@ -69,7 +68,7 @@ public class OrderBookServiceTest {
         Wallet wallet = Wallet.builder()
                 .user(user).availableBalance(BigDecimal.TEN).lockedBalance(BigDecimal.ZERO).symbol(CryptoSymbol.USDT).build();
 
-        OrderBook orderBook = OrderBook.builder()
+        Order order = Order.builder()
                 .user(user)
                 .isBuy(true)
                 .orderUuid(UUID.randomUUID())
@@ -85,12 +84,12 @@ public class OrderBookServiceTest {
         when(userService.findUserByUuid(userUuId)).thenReturn(user);
         when(walletService.findWalletByUserAndSymbol(any(), any())).thenReturn(wallet);
         when(cryptoPoolReadOnly.getCurrentBuyPriceBySymbol(CryptoSymbol.BTC)).thenReturn(ratePrice);
-        when(coordinateMatchingFactory.getCoordinateMatchingStrategy(MatchingStrategy.FIFO)).thenReturn(coordinateFIFOMatchingStrategy);
-        when(orderBookRepository.saveAndFlush(any())).thenReturn(orderBook);
+        when(orderBookFactory.getOrderBook(OrderBookType.FIFO)).thenReturn(PriceTimePriorityOrderBook);
+        when(orderRepository.saveAndFlush(any())).thenReturn(order);
 
-        OrderBook actualResult = orderBookService.add(request);
+        Order actualResult = orderService.placeMarketOrder(request);
 
-        assertEquals(orderBook.getOrderType(), actualResult.getOrderType());
+        assertEquals(order.getOrderType(), actualResult.getOrderType());
         assertEquals(user.getId(), actualResult.getUser().getId());
         assertEquals(request.symbol(), actualResult.getRequestSymbol());
         assertEquals(request.quantity(), actualResult.getRequestQuantity());
@@ -119,6 +118,6 @@ public class OrderBookServiceTest {
         when(walletService.findWalletByUserAndSymbol(any(), any())).thenReturn(wallet);
         when(cryptoPoolReadOnly.getCurrentBuyPriceBySymbol(CryptoSymbol.BTC)).thenReturn(BigDecimal.TEN);
 
-        assertThrows(UserBalanceNotEnoughException.class, () -> orderBookService.add(request));
+        assertThrows(UserBalanceNotEnoughException.class, () -> orderService.placeMarketOrder(request));
     }
 }

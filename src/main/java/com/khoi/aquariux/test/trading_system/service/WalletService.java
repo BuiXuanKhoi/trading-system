@@ -14,4 +14,7 @@ public interface WalletService {
     Wallet findWalletByUserAndSymbol(User user, CryptoSymbol symbol);
 
     void acquireLockFund(Long walletId, CryptoSymbol symbol, BigDecimal lockedQuantity);
+
+    void deduct(Wallet wallet, BigDecimal newBalance);
+    void depositTo(Wallet wallet, BigDecimal newBalance);
 }

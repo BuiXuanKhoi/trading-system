@@ -54,6 +54,25 @@ public class WalletServiceImpl implements WalletService {
         saveAndFlush(wallet);
     }
 
+    @Override
+    public void deduct(Wallet wallet, BigDecimal quantity) {
+        log.info("deduct from {} wallet of user uuid {}", wallet.getSymbol(), wallet.getUser().getUserUuid());
+        BigDecimal newBalance = wallet.getAvailableBalance().subtract(quantity);
+        updateBalance(wallet, newBalance);
+    }
+
+    @Override
+    public void depositTo(Wallet wallet, BigDecimal quantity) {
+        log.info("deposit to {} wallet of user uuid {}", wallet.getSymbol(), wallet.getUser().getUserUuid());
+        BigDecimal newBalance = wallet.getAvailableBalance().add(quantity);
+        updateBalance(wallet, newBalance);
+    }
+
+    private void updateBalance(Wallet wallet, BigDecimal newBalance){
+        wallet.setAvailableBalance(newBalance);
+        saveAndFlush(wallet);
+    }
+
     private Wallet saveAndFlush(Wallet wallet){
         String action = Objects.nonNull(wallet.getId()) ? "UPDATED" : "CREATED";
         Wallet savedWallet = walletRepository.saveAndFlush(wallet);

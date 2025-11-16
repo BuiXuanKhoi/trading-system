@@ -8,17 +8,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class HuobiConnector extends BaseConnector{
+public class BinanceConnector extends BaseConnector{
 
     private final ExternalConnectionConfig externalConnectionConfig;
     @Override
     public CryptoSource getType() {
-        return CryptoSource.HUOBI;
+        return CryptoSource.BINANCE;
     }
 
     @Override
     public CryptoPriceResponse fetchLatestPriceAndQuantity() {
         String url = buildUrl(externalConnectionConfig);
+
         return null;
     }
 }
