@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS wallets (
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_wallet_user FOREIGN KEY (user_id) REFERENCES users (id),
-    CONSTRAINT uni_wallet_user_symbol UNIQUE (user_id, symbol)
+    CONSTRAINT uq_wallet_user_symbol UNIQUE (user_id, symbol)
 );
 
 CREATE TABLE IF NOT EXISTS orders (
@@ -64,3 +64,5 @@ CREATE TABLE IF NOT EXISTS market_price (
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE INDEX IF NOT EXISTS idx_users_user_name ON users (username);

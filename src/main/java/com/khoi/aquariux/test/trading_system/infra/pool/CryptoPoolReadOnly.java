@@ -13,5 +13,4 @@ public interface CryptoPoolReadOnly {
 
     CryptoPriceResponse.SymbolInfo getSymbolInfoBySymbol(CryptoSymbol symbol);
 
-    BigDecimal getCurrentQuantityBySymbol(CryptoSymbol cryptoSymbol);
 }

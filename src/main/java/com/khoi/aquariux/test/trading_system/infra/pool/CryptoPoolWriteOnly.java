@@ -6,9 +6,8 @@ import java.math.BigDecimal;
 
 public interface CryptoPoolWriteOnly extends CryptoPoolReadOnly{
 
-    void updateSymbolBuy(CryptoSymbol symbol, BigDecimal newQuantity);
-
-    void updateSymbolSell(CryptoSymbol symbol, BigDecimal newQuantity);
+    void deductSymbolSell(CryptoSymbol symbol, BigDecimal costQuantity);
+    void deductSymbolBuy(CryptoSymbol symbol, BigDecimal costQuantity);
 
 
     void renew();

@@ -46,10 +46,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order placeMarketOrder(OrderRequest request) {
-        User owner = userService.findUserByUuid(request.userUuid());
+        User owner = userService.findOrDefault(request.username());
 
         Order order = request.isBuy() ? createMarketBuyOrder(request, owner) : createMarketSellOrder(request, owner);
-        Order savedOrder = saveAndFlush(order);
+        Order savedOrder = orderRepository.saveAndFlush(order);
         orderBookFactory.getOrderBook(OrderBookType.FIFO).pushOrder(savedOrder);
         return savedOrder;
     }
@@ -63,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
     public void updateStatus(Order order, OrderStatus newStatus) {
         log.info("switch status for order uuid {} from {} to {}", order.getOrderUuid(), order.getStatus(), newStatus);
         order.setStatus(newStatus);
-        saveAndFlush(order);
+        orderRepository.saveAndFlush(order);
     }
 
     @Override
@@ -76,13 +76,6 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
     }
 
-    private Order saveAndFlush(Order order){
-        String action = Objects.nonNull(order.getId()) ? "UPDATED" : "CREATED";
-        Order savedOrder = orderRepository.saveAndFlush(order);
-        log.info("finish {} for order id {}", action, order.getId());
-
-        return savedOrder;
-    }
 
     private OrderDetailResponse buildOrderDetailResponse(Order order){
         return OrderDetailResponse.builder()

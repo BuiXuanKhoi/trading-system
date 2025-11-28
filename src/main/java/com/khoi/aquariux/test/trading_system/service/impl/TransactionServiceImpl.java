@@ -35,14 +35,6 @@ public class TransactionServiceImpl implements TransactionService {
                                             .status(status)
                                             .build();
 
-        return saveAndFlush(transaction);
-    }
-
-
-    private Transaction saveAndFlush(Transaction transaction){
-        String action = Objects.nonNull(transaction.getId()) ? "UPDATED" : "CREATED";
-        Transaction savedTransaction = transactionRepository.saveAndFlush(transaction);
-        log.info("finish {} transaction with uuid {}", action, savedTransaction.getTransactionUuid());
-        return savedTransaction;
+        return transactionRepository.saveAndFlush(transaction);
     }
 }

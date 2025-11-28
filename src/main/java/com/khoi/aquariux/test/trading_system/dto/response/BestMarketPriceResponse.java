@@ -33,5 +33,4 @@ public class BestMarketPriceResponse {
                 .updatedAt(marketPrice.getCreatedDate())
                 .build();
     }
-
 }

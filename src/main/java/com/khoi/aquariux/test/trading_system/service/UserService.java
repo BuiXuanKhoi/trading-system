@@ -8,4 +8,6 @@ import java.util.UUID;
 public interface UserService {
 
     User findUserByUuid(UUID userUuid);
+
+    User findOrDefault(String username);
 }

@@ -8,11 +8,10 @@ import com.khoi.aquariux.test.trading_system.infra.repository.WalletRepository;
 import com.khoi.aquariux.test.trading_system.infra.repository.entity.User;
 import com.khoi.aquariux.test.trading_system.infra.repository.entity.Wallet;
 import com.khoi.aquariux.test.trading_system.service.UserService;
-import com.khoi.aquariux.test.trading_system.service.WalletService;
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+import com.khoi.aquariux.test.trading_system.service.WalletService;import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -31,6 +30,7 @@ public class WalletServiceImpl implements WalletService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public Wallet findWalletByUserAndSymbol(User user, CryptoSymbol symbol) {
         return walletRepository.findWalletByUserAndSymbol(user.getId(), symbol.toString())
                 .orElseThrow(() -> new ResourceNotFoundException("wallet %s not found for user uuid: %s", symbol.toString(), user.getUserUuid().toString()));
@@ -54,7 +54,7 @@ public class WalletServiceImpl implements WalletService {
         wallet.setAvailableBalance(newAvailableBalance);
         wallet.setLockedBalance(newLockedBalance);
 
-        saveAndFlush(wallet);
+        walletRepository.saveAndFlush(wallet);
     }
 
     @Override
@@ -88,14 +88,6 @@ public class WalletServiceImpl implements WalletService {
 
     private void updateBalance(Wallet wallet, BigDecimal newBalance){
         wallet.setAvailableBalance(newBalance);
-        saveAndFlush(wallet);
-    }
-
-    private Wallet saveAndFlush(Wallet wallet){
-        String action = Objects.nonNull(wallet.getId()) ? "UPDATED" : "CREATED";
-        Wallet savedWallet = walletRepository.saveAndFlush(wallet);
-        log.info("finish {} for wallet id {}", action, wallet.getId());
-
-        return savedWallet;
+        walletRepository.saveAndFlush(wallet);
     }
 }

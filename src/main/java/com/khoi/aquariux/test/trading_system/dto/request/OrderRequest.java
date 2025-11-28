@@ -9,6 +9,7 @@ import java.util.UUID;
 public record OrderRequest(
 
         UUID userUuid,
+        String username,
         Boolean isBuy,
         OrderType orderType,
         CryptoSymbol symbol,
